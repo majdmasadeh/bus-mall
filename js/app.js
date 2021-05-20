@@ -2,7 +2,7 @@
 let attempts = 0;
 let maxAttempts = 25;
 let ProductsNames = [];
-let numberOfClicks = [];
+let numberOfPress = [];
 let numberOfVeiws = [];
 
 
@@ -12,7 +12,7 @@ function Product(productName) {
     this.productName = productName.split('.')[0];
     this.imageSource = 'img/' + productName;
     this.veiws = 0;
-    this.clicks = 0;
+    this.Press = 0;
 
     objectsArray.push(this);
 }
@@ -40,9 +40,9 @@ let middelImageIndex;
 let rightImageIndex;
 
 
-let firstIterationIndexes = [];
+let previousIteration = [];
 
-function getThreeImages() {
+function imagesRender() {
     leftImageIndex = randomImage();
     middelImageIndex = randomImage();
     rightImageIndex = randomImage();
@@ -54,12 +54,12 @@ function getThreeImages() {
 
 
     if (attempts == 0) {
-        firstIterationIndexes = [leftImageIndex, middelImageIndex, rightImageIndex];
-        console.log(firstIterationIndexes);
+        previousIteration = [leftImageIndex, middelImageIndex, rightImageIndex];
+        console.log(previousIteration);
     }
 
  if (attempts == 1) {
-    while ((leftImageIndex === firstIterationIndexes[0] || leftImageIndex === firstIterationIndexes[1] || leftImageIndex === firstIterationIndexes[2]) || (middelImageIndex === firstIterationIndexes[0] || middelImageIndex === firstIterationIndexes[1] || middelImageIndex === firstIterationIndexes[2]) || (rightImageIndex === firstIterationIndexes[0] || rightImageIndex === firstIterationIndexes[1] || rightImageIndex === firstIterationIndexes[2]) || ((leftImageIndex === middelImageIndex) || (leftImageIndex === rightImageIndex) || (middelImageIndex === rightImageIndex))) {
+    while ((leftImageIndex === previousIteration[0] || leftImageIndex === previousIteration[1] || leftImageIndex === previousIteration[2]) || (middelImageIndex === previousIteration[0] || middelImageIndex === previousIteration[1] || middelImageIndex === previousIteration[2]) || (rightImageIndex === previousIteration[0] || rightImageIndex === previousIteration[1] || rightImageIndex === previousIteration[2]) || ((leftImageIndex === middelImageIndex) || (leftImageIndex === rightImageIndex) || (middelImageIndex === rightImageIndex))) {
         leftImageIndex = randomImage();
         middelImageIndex = randomImage();
         rightImageIndex = randomImage();
@@ -89,31 +89,31 @@ function getThreeImages() {
     objectsArray[rightImageIndex].veiws++; 
 
 }
-getThreeImages();
+imagesRender();
 
 
 
-leftImage.addEventListener('click', clicks);
-middelImage.addEventListener('click', clicks);
-rightImage.addEventListener('click', clicks);
+leftImage.addEventListener('click', Press);
+middelImage.addEventListener('click', Press);
+rightImage.addEventListener('click', Press);
 
 
-function clicks(event) {
+function Press(event) {
     attempts++;
     if (attempts <= maxAttempts) {
         attemptsElement.textContent = attempts;
         if (event.target.id == 'leftImg') {
-            objectsArray[leftImageIndex].clicks++;
+            objectsArray[leftImageIndex].Press++;
         } else if (event.target.id == 'middelImg') {
-            objectsArray[middelImageIndex].clicks++;
+            objectsArray[middelImageIndex].Press++;
         } else if (event.target.id == 'rightImg') {
-            objectsArray[rightImageIndex].clicks++;
+            objectsArray[rightImageIndex].Press++;
         }
 
     } else { 
-        leftImage.removeEventListener('click', clicks);
-        middelImage.removeEventListener('click', clicks);
-        rightImage.removeEventListener('click', clicks);
+        leftImage.removeEventListener('click', Press);
+        middelImage.removeEventListener('click', Press);
+        rightImage.removeEventListener('click', Press);
 
         let button = document.getElementById('resultButton');
         button.addEventListener('click',veiwResults);
@@ -121,8 +121,8 @@ function clicks(event) {
             for (let i = 0; i < objectsArray.length; i++) {
                 let liElement = document.createElement('li');
                 unorderdList.appendChild(liElement);
-                liElement.textContent = `${objectsArray[i].productName} had ${objectsArray[i].clicks} votes, and was seen ${objectsArray[i].veiws} times.`;
-                numberOfClicks.push(objectsArray[i].clicks);
+                liElement.textContent = `${objectsArray[i].productName} had ${objectsArray[i].Press} votes, and was seen ${objectsArray[i].veiws} times.`;
+                numberOfPress.push(objectsArray[i].Press);
                 numberOfVeiws.push(objectsArray[i].veiws);
                 ProductsNames.push(objectsArray[i].productName);
             }
@@ -130,7 +130,7 @@ function clicks(event) {
             getChart();
         }
     }
-    getThreeImages();
+    imagesRender();
 }
 
 
@@ -142,7 +142,7 @@ function getChart() {
             labels: ProductsNames,
             datasets: [{
                 label: '# of Votes',
-                data: numberOfClicks,
+                data: numberOfPress,
                 backgroundColor: [
                     '#ff6384',
                 ],
