@@ -45,4 +45,11 @@ button{width: 100px;
     margin-top: 15px;}
 
 ul li{color: green;}
-ul li:first-child{margin-top: 20px;}
+ul li:first-child
+{margin-top: 20px;}
+
+#chartContainer
+{width: 75%;
+    height: 200px;
+    margin: 0px auto;
+    margin-top: 20px;}
