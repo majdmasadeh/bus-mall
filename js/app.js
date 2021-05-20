@@ -26,6 +26,29 @@ function randomImage() {
     return Math.floor(Math.random() * objectsArray.length);
 }
 
+// adding local storage
+ function settingItems(){
+     let data = JSON.stringify (objectsArray);
+     //console,log(data);
+     localStorage.setItem('product',data);
+    
+ }
+ 
+
+ // adding a local function
+ function getItems(){
+     let  stringData =  localStorage.getItem('product');
+     let newObject = JSON.parse (stringData);
+     if (newObject !== null){
+        objectsArray= newObject ;
+
+     }
+
+ imagesRender();
+ }
+ 
+
+
 
 let attemptsElement = document.getElementById('attNumb');
 let leftImage = document.getElementById('leftImg');
@@ -171,3 +194,5 @@ function getChart() {
         }
     });
 }
+
+getItems();
