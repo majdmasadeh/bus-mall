@@ -4,6 +4,8 @@ let maxAttempts = 25;
 let ProductsNames = [];
 let numberOfPress = [];
 let numberOfVeiws = [];
+let noc = 0;
+
 
 
 
@@ -111,7 +113,12 @@ function imagesRender() {
     rightImage.setAttribute('alt', objectsArray[rightImageIndex].productName);
     objectsArray[rightImageIndex].veiws++; 
 
+
+    previousIteration = [leftImageIndex, middelImageIndex, rightImageIndex];
+    settingItems();
+
 }
+getItems();
 imagesRender();
 
 
@@ -137,7 +144,10 @@ function Press(event) {
         leftImage.removeEventListener('click', Press);
         middelImage.removeEventListener('click', Press);
         rightImage.removeEventListener('click', Press);
+    } 
+    imagesRender();
 
+    if (attempts<=maxAttempts || noc ){
         let button = document.getElementById('resultButton');
         button.addEventListener('click',veiwResults);
         function veiwResults(event){
@@ -153,7 +163,7 @@ function Press(event) {
             getChart();
         }
     }
-    imagesRender();
+   
 }
 
 
